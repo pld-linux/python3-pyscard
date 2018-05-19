@@ -1,27 +1,31 @@
+#
 # Conditional build:
-%bcond_with	tests	# do not perform "make test"
+%bcond_without	tests	# unit tests
 %bcond_without	python2 # CPython 2.x module
 %bcond_without	python3 # CPython 3.x module
 
 %define 	module	pyscard
-Summary:	A framework for building smart card aware applications in Python
+Summary:	A framework for building smart card aware applications in Python 2
+Summary(pl.UTF-8):	Szkielet do tworzenia w Pythonie 2 aplikacji wykorzystujących karty procesorowe
 Name:		python-%{module}
-Version:	1.9.4
+Version:	1.9.6
 Release:	1
-License:	LGPLv2
+License:	LGPL v2.1+
 Group:		Libraries/Python
-Source0:	https://downloads.sourceforge.net/project/pyscard/pyscard/pyscard%201.9.4/pyscard-%{version}.tar.gz
-# Source0-md5:	55c08be4aea72ac411feeb52b13b9ba2
+Source0:	https://downloads.sourceforge.net/pyscard/pyscard-%{version}.tar.gz
+# Source0-md5:	079343dbc469330e74dee8924bc8944e
 URL:		https://sourceforge.net/projects/pyscard/
 BuildRequires:	pcsc-lite-devel
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
-BuildRequires:	swig
+BuildRequires:	swig-python >= 2
 %if %{with python2}
-BuildRequires:	python-devel
+BuildRequires:	python-devel >= 1:2.6
+BuildRequires:	python-setuptools
 %endif
 %if %{with python3}
-BuildRequires:	python3-devel
+BuildRequires:	python3-devel >= 1:3.3
+BuildRequires:	python3-setuptools
 %endif
 Requires:	python-modules
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -31,8 +35,14 @@ The pyscard smartcard library is a framework for building smart card
 aware applications in Python. The smartcard module is built on top of
 the PCSC API Python wrapper module.
 
+%description -l pl.UTF-8
+Biblioteka pyscard smartcard to szkielet do tworzenia w Pythonie
+aplikacji wykorzystujących karty procesorowe. Moduł smartcard jest
+zbudowany w oparciu o moduł Pythona obudowujący API PCSC.
+
 %package -n python3-%{module}
-Summary:	A framework for building smart card aware applications in Python
+Summary:	A framework for building smart card aware applications in Python 3
+Summary(pl.UTF-8):	Szkielet do tworzenia w Pythonie 3 aplikacji wykorzystujących karty procesorowe
 Group:		Libraries/Python
 Requires:	python3-modules
 
@@ -40,6 +50,11 @@ Requires:	python3-modules
 The pyscard smartcard library is a framework for building smart card
 aware applications in Python. The smartcard module is built on top of
 the PCSC API Python wrapper module.
+
+%description -n python3-%{module} -l pl.UTF-8
+Biblioteka pyscard smartcard to szkielet do tworzenia w Pythonie
+aplikacji wykorzystujących karty procesorowe. Moduł smartcard jest
+zbudowany w oparciu o moduł Pythona obudowujący API PCSC.
 
 %prep
 %setup -q -n %{module}-%{version}
@@ -55,6 +70,7 @@ the PCSC API Python wrapper module.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %if %{with python2}
 %py_install
 %py_postclean
