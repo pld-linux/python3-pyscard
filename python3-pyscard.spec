@@ -7,7 +7,7 @@ Summary:	A framework for building smart card aware applications in Python 3
 Summary(pl.UTF-8):	Szkielet do tworzenia w Pythonie 3 aplikacji wykorzystujących karty procesorowe
 Name:		python3-%{module}
 Version:	2.0.7
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries/Python
 Source0:	https://downloads.sourceforge.net/pyscard/pyscard-%{version}.tar.gz
